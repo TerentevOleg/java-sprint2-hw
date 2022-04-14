@@ -22,6 +22,7 @@ public class Main {
         taskManager.createSubtask(subTask2);
         Subtask subtask3 = new Subtask(epic.getId(),"Пт", "Тренировка спины", Status.NEW);
         taskManager.createSubtask(subtask3);
+        System.out.println(epic);
 
         Epic epic2 = new Epic("Для чего-то", "Что-то сделать", Status.NEW);
         taskManager.createEpic(epic2);

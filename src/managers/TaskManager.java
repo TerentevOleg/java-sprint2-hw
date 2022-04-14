@@ -7,15 +7,14 @@ import model.Status;
 
 import java.util.*;
 
+//Бекграунда по сути нет. Есть только инженерное образование и опыт работы со scada системами на контроллерах siemens.
+//Там было блочное программирование.
+
 public class TaskManager {
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
     private Map<Integer, Epic> epics = new HashMap<>();
     private int id = 0;
-
-    private int generateNextId() {
-        return ++id;
-    }
 
     public void createTask(Task task) {
         if (tasks.containsKey(task.getId())) {
@@ -33,8 +32,8 @@ public class TaskManager {
         return tasks.get(id);
     }
 
-    public Task removeTask(int id) {
-        return tasks.remove(id);
+    public void removeTask(int id) {
+        tasks.remove(id);
     }
 
     public List<Task> getAllTasks() {
@@ -51,30 +50,30 @@ public class TaskManager {
         }
         subtask.setId(generateNextId());
         subtasks.put(subtask.getId(), subtask);
-        epics.get(subtask.getEpicID()).addSubtask(subtask);
+        epics.get(subtask.getEpicId()).addSubtask(subtask);
     }
 
     public void updateSubtask(Subtask subtask) {
         Subtask foundTask = subtasks.get(subtask.getId());
-        if (!Objects.equals(subtask.getEpicID(), foundTask.getEpicID())) {
-            Epic epicToRemoveSubtask = getEpic(foundTask.getEpicID());
-            Epic epicToAddSubtask = getEpic(subtask.getEpicID());
+        if (!Objects.equals(subtask.getEpicId(), foundTask.getEpicId())) {
+            Epic epicToRemoveSubtask = getEpic(foundTask.getEpicId());
+            Epic epicToAddSubtask = getEpic(subtask.getEpicId());
             epicToRemoveSubtask.removeSubtask(foundTask);
             epicToAddSubtask.addSubtask(subtask);
             updateEpic(epicToRemoveSubtask);
             updateEpic(epicToAddSubtask);
         }
         subtasks.put(subtask.getId(), subtask);
-        Epic epic = getEpic(subtask.getEpicID());
+        Epic epic = getEpic(subtask.getEpicId());
         updateEpic(epic);
     }
 
-    public Subtask removeSubtask(int id) {
+    public void removeSubtask(int id) {
         Subtask subtask = subtasks.get(id);
-        Epic epic = getEpic(subtask.getEpicID());
+        Epic epic = getEpic(subtask.getEpicId());
         epic.removeSubtask(subtask);
         updateEpic(epic);
-        return subtasks.remove(id);
+        subtasks.remove(id);
     }
 
     public List<Subtask> getAllSubtasks() {
@@ -114,7 +113,7 @@ public class TaskManager {
         return new ArrayList<>(epics.values());
     }
 
-    private Status computeEpicStatus(Epic epic) {
+    private Status computeEpicStatus(Epic epic) { //Не могу придумать, как переделать этот метод, уже всю голову сломал.
         List<Subtask> allSubtasks = epic.getSubtasks();
         if (allSubtasks.isEmpty()) {
             return Status.NEW;
@@ -139,5 +138,9 @@ public class TaskManager {
             return Status.DONE;
         }
         return Status.IN_PROGRESS;
+    }
+
+    private int generateNextId() {
+        return ++id;
     }
 }
