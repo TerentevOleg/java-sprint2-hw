@@ -3,16 +3,30 @@ package model;
 import java.util.Objects;
 
 public class Task {
+    private int id;
     private String name;
     private String description;
-    private int id;
     private Status status;
 
-    public Task(String name, String description, int id, Status status) {
+    public Task(int id, String name, String description, Status status) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.id = id;
         this.status = status;
+    }
+
+    public Task(String name, String description, Status status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -21,10 +35,6 @@ public class Task {
 
     public String getDescription() {
         return description;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Status getStatus() {
@@ -52,9 +62,9 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
+                "\n\t id= " + id +
                 "\n\t name= " + name +
                 "\n\t description= " + description +
-                "\n\t id= " + id +
                 "\n\t status= " + status +
                 "\n\t}";
     }
