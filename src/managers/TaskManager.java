@@ -7,9 +7,6 @@ import model.Status;
 
 import java.util.*;
 
-//Бекграунда по сути нет. Есть только инженерное образование и опыт работы со scada системами на контроллерах siemens.
-//Там было блочное программирование.
-
 public class TaskManager {
     private Map<Integer, Task> tasks = new HashMap<>();
     private Map<Integer, Subtask> subtasks = new HashMap<>();
@@ -113,7 +110,7 @@ public class TaskManager {
         return new ArrayList<>(epics.values());
     }
 
-    private Status computeEpicStatus(Epic epic) { //Не могу придумать, как переделать этот метод, уже всю голову сломал.
+    private Status computeEpicStatus(Epic epic) {
         List<Subtask> allSubtasks = epic.getSubtasks();
         if (allSubtasks.isEmpty()) {
             return Status.NEW;
@@ -121,14 +118,11 @@ public class TaskManager {
         int newStatus = 0;
         int doneStatus = 0;
 
-        for (Subtask Subtask1 : allSubtasks) {
-            switch (Subtask1.getStatus()) {
-                case NEW:
-                    newStatus++;
-                    break;
-                case DONE:
-                    doneStatus++;
-                    break;
+        for (Subtask subtask1 : allSubtasks) {
+            if (subtask1.getStatus() == Status.NEW) {
+                newStatus++;
+            } else if (subtask1.getStatus() == Status.DONE) {
+                doneStatus++;
             }
         }
         if (newStatus == allSubtasks.size()) {

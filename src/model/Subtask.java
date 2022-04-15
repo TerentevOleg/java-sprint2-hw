@@ -28,7 +28,7 @@ public class Subtask extends Task {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Subtask)) { //Очень интересный оператор instanceof, не встречал ранее.
+        if (!(o instanceof Subtask)) {
             return false;
         }
         if (!super.equals(o)) {
