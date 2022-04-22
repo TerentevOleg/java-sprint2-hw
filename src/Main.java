@@ -1,4 +1,6 @@
 import managers.TaskManager;
+import managers.Manager;
+
 import model.Epic;
 import model.Status;
 import model.Subtask;
@@ -7,7 +9,7 @@ import model.Task;
 public class Main {
     public static void main(String[] args) {
 
-        TaskManager taskManager = new TaskManager();
+        TaskManager taskManager = Manager.getDefault(Manager.getDefaultHistory());
 
         Task task1 = new Task("Перевести вещи в другую квартиру", "Переезд", Status.NEW);
         taskManager.createTask(task1);
@@ -29,6 +31,16 @@ public class Main {
 
         Task task2update = new Task(1,"Новое описание", "Обновление задачи", Status.IN_PROGRESS);
         taskManager.updateTask(task2update);
+
+        System.out.println();
+        taskManager.getTask(1);
+        taskManager.getTask(2);
+        taskManager.getEpic(3);
+        taskManager.getSubtask(4);
+        taskManager.getSubtask(5);
+        for (Task task : taskManager.history()){
+            System.out.println(task);
+        }
 
         taskManager.removeTask(task1.getId());
         taskManager.removeEpic(epic.getId());
