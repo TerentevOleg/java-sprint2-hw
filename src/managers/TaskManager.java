@@ -20,8 +20,6 @@ public interface TaskManager {
 
     void removeAllTasks();
 
-    List<Task> history();
-
     void createSubtask(Subtask subtask);
 
     void updateSubtask(Subtask subtask);

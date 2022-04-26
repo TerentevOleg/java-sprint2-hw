@@ -34,13 +34,17 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateTask(Task task) {
+        if (tasks.containsKey(task.getId())) {
+            return;
+        }
         tasks.put(task.getId(), task);
     }
 
     @Override
     public Task getTask(int id) {
-        historyManager.addTaskHistoryList(tasks.get(id));
-        return tasks.get(id);
+        Task task = tasks.get(id);
+        historyManager.addTaskHistoryList(task);
+        return task;
     }
 
     @Override
@@ -59,11 +63,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> history() {
-        return historyManager.getTaskHistoryList();
-    }
-
-    @Override
     public void createSubtask(Subtask subtask) {
         if (subtasks.containsKey(subtask.getId())) {
             return;
@@ -71,6 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
         subtask.setId(generateNextId());
         subtasks.put(subtask.getId(), subtask);
         epics.get(subtask.getEpicId()).addSubtask(subtask);
+        updateEpic(getEpic(subtask.getEpicId()));
     }
 
     @Override
@@ -85,14 +85,13 @@ public class InMemoryTaskManager implements TaskManager {
             updateEpic(epicToAddSubtask);
         }
         subtasks.put(subtask.getId(), subtask);
-        Epic epic = getEpic(subtask.getEpicId());
-        updateEpic(epic);
     }
 
     @Override
     public Subtask getSubtask(int id) {
-        historyManager.addTaskHistoryList(subtasks.get(id));
-        return subtasks.get(id);
+        Subtask subtask = subtasks.get(id);
+        historyManager.addTaskHistoryList(subtask);
+        return subtask;
     }
 
     @Override
@@ -126,8 +125,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpic(int id) {
-        historyManager.addTaskHistoryList(epics.get(id));
-        return epics.get(id);
+        Epic epic = epics.get(id);
+        historyManager.addTaskHistoryList(epic);
+        return epic;
     }
 
     @Override

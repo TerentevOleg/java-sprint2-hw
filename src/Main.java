@@ -38,7 +38,7 @@ public class Main {
         taskManager.getEpic(3);
         taskManager.getSubtask(4);
         taskManager.getSubtask(5);
-        for (Task task : taskManager.history()){
+        for (Task task : Manager.getDefaultHistory().getTaskHistoryList()){
             System.out.println(task);
         }
 
