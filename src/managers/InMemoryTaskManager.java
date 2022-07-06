@@ -85,6 +85,7 @@ public class InMemoryTaskManager implements TaskManager {
             updateEpic(epicToAddSubtask);
         }
         subtasks.put(subtask.getId(), subtask);
+        updateEpic(getEpic(subtask.getEpicId()));
     }
 
     @Override

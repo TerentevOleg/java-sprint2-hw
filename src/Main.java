@@ -6,6 +6,8 @@ import model.Status;
 import model.Subtask;
 import model.Task;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -38,11 +40,11 @@ public class Main {
         taskManager.getEpic(3);
         taskManager.getSubtask(4);
         taskManager.getSubtask(5);
-        for (Task task : Manager.getDefaultHistory().getTaskHistoryList()){
-            System.out.println(task);
-        }
+        List<Task> history = Manager.getDefaultHistory().getTaskHistoryList();
+        System.out.println(history);
 
         taskManager.removeTask(task1.getId());
         taskManager.removeEpic(epic.getId());
+        System.out.println(history);
     }
 }
